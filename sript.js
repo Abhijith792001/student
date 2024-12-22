@@ -86,7 +86,7 @@ function showDayView(selectedDay = null) {
   const classSchedule = [
     { time: "9:00 AM - 10:00 AM", subject: "Professional Communication" },
     { time: "10:30 AM - 11:30 AM", subject: "Operating System" },
-    { time: "12:00 PM - 1:00 PM", subject: "Foundation of maths" },
+    { time: "12:00 PM - 1:00 PM", subject: "Foundation of Maths" },
   ];
 
   // Inject Day View content with schedule
