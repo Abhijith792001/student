@@ -84,9 +84,9 @@ function showDayView(selectedDay = null) {
 
   // Simulating class schedule data for the selected day (can be replaced with real data)
   const classSchedule = [
-    { time: "9:00 AM - 10:00 AM", subject: "Mathematics" },
-    { time: "10:30 AM - 11:30 AM", subject: "Physics" },
-    { time: "12:00 PM - 1:00 PM", subject: "Chemistry" },
+    { time: "9:00 AM - 10:00 AM", subject: "Professional Communication" },
+    { time: "10:30 AM - 11:30 AM", subject: "Operating System" },
+    { time: "12:00 PM - 1:00 PM", subject: "Foundation of maths" },
   ];
 
   // Inject Day View content with schedule
