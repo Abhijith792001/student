@@ -1,39 +1,39 @@
- // Ensure the DOM is fully loaded before adding event listeners
- document.addEventListener('DOMContentLoaded', function() {
-  const menuButton = document.getElementById('menu-button');
-  const closeButton = document.getElementById('close-button');
-  const sidebar = document.getElementById('sidebar');
-  const backdrop = document.getElementById('backdrop');
+// Ensure the DOM is fully loaded before adding event listeners
+document.addEventListener("DOMContentLoaded", function () {
+  const menuButton = document.getElementById("menu-button");
+  const closeButton = document.getElementById("close-button");
+  const sidebar = document.getElementById("sidebar");
+  const backdrop = document.getElementById("backdrop");
 
   // Open sidebar when menu button is clicked
-  menuButton.addEventListener('click', function(event) {
+  menuButton.addEventListener("click", function (event) {
     event.stopPropagation(); // Prevent the event from bubbling up
-    sidebar.classList.remove('-translate-x-full');
-    backdrop.classList.remove('hidden');
+    sidebar.classList.remove("-translate-x-full");
+    backdrop.classList.remove("hidden");
   });
 
   // Close sidebar when close button is clicked
-  closeButton.addEventListener('click', function(event) {
+  closeButton.addEventListener("click", function (event) {
     event.stopPropagation(); // Prevent the event from bubbling up
-    sidebar.classList.add('-translate-x-full');
-    backdrop.classList.add('hidden');
+    sidebar.classList.add("-translate-x-full");
+    backdrop.classList.add("hidden");
   });
 
   // Close sidebar when clicking outside the sidebar
-  document.addEventListener('click', function(event) {
+  document.addEventListener("click", function (event) {
     if (!sidebar.contains(event.target) && !menuButton.contains(event.target)) {
-      sidebar.classList.add('-translate-x-full');
-      backdrop.classList.add('hidden');
+      sidebar.classList.add("-translate-x-full");
+      backdrop.classList.add("hidden");
     }
   });
 
   // Prevent click event from closing the sidebar when clicked inside the sidebar
-  sidebar.addEventListener('click', function(event) {
+  sidebar.addEventListener("click", function (event) {
     event.stopPropagation(); // Prevent the event from bubbling up
   });
 
   // Prevent click event from closing the sidebar when clicking on the menu button
-  menuButton.addEventListener('click', function(event) {
+  menuButton.addEventListener("click", function (event) {
     event.stopPropagation(); // Prevent the event from bubbling up
   });
 });
@@ -41,155 +41,175 @@
 
 
 
-
-
-// Initial view setup: Default to Day View and current month
-let currentView = 'day';  // Start with the Day View
-let currentMonthIndex = new Date().getMonth();  // Current month (0-11)
-let currentYear = new Date().getFullYear();  // Current year
-
-// Function to toggle between views
-function toggleView(view) {
-  const dayButton = document.getElementById('dayViewButton');
-  const monthButton = document.getElementById('monthViewButton');
-  
-  // Toggle button styles
-  if (view === 'day') {
-    dayButton.classList.add('bg-white', 'text-[#A4123F]', 'shadow-sm');
-    dayButton.classList.remove('text-gray-600');
-    monthButton.classList.remove('bg-white', 'text-[#A4123F]', 'shadow-sm');
-    monthButton.classList.add('text-gray-600');
-    currentView = 'day';
-    showDayView();  // Show the Day View
-  } else {
-    monthButton.classList.add('bg-white', 'text-[#A4123F]', 'shadow-sm');
-    monthButton.classList.remove('text-gray-600');
-    dayButton.classList.remove('bg-white', 'text-[#A4123F]', 'shadow-sm');
-    dayButton.classList.add('text-gray-600');
-    currentView = 'month';
-    showMonthView();  // Show the Month View
+  // Function to toggle the visibility of the menu
+  function toggleMenu() {
+    const menu = document.getElementById('menu');
+    menu.classList.toggle('hidden');
   }
-}
 
-// Function to display the Day View with Schedule
-function showDayView(selectedDay = null) {
-  const calendarContainer = document.getElementById('calendarContainer');
-  const today = new Date();
-  const dayName = today.toLocaleString('default', { weekday: 'long' });
-  const month = today.toLocaleString('default', { month: 'long' });
-  const year = today.getFullYear();
-  
-  // If a specific day is selected, update the day and month
-  const day = selectedDay || today.getDate();
-
-  // Simulating class schedule data for the selected day (can be replaced with real data)
-  const classSchedule = [
-    { time: "9:00 AM - 10:00 AM", subject: "Professional Communication" },
-    { time: "10:30 AM - 11:30 AM", subject: "Operating System" },
-    { time: "12:00 PM - 1:00 PM", subject: "Foundation of Maths" },
-  ];
-
-  // Inject Day View content with schedule
-  let scheduleHTML = classSchedule.length > 0
-    ? classSchedule.map(item => `
-        <div class="flex justify-between py-2 border-b border-gray-200">
-          <span class="text-gray-700">${item.time}</span>
-          <span class="text-gray-800 font-medium">${item.subject}</span>
-        </div>
-      `).join('')
-    : `<div class="text-center py-12 text-gray-500 bg-gray-50 rounded-lg">No classes scheduled for today.</div>`;
-
-  calendarContainer.innerHTML = `
-    <div class="space-y-5">
-      <div class="flex items-center gap-2 bg-[#A4123F]/5 px-4 py-2 rounded-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock w-5 h-5 text-[#A4123F]">
-          <circle cx="12" cy="12" r="10"></circle>
-          <polyline points="12 6 12 12 16 14"></polyline>
-        </svg>
-        <h3 class="font-medium text-[#A4123F]">Schedule for ${dayName}, ${month} ${day}, ${year}</h3>
-      </div>
-      <div class="py-4 px-6 bg-white rounded-lg shadow-sm">
-        ${scheduleHTML}
-      </div>
-    </div>
-  `;
-}
-
-// Function to display the Month View with clickable days and navigation arrows
-function showMonthView() {
-  const calendarContainer = document.getElementById('calendarContainer');
-
-  const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June', 
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
-  const month = monthNames[currentMonthIndex];  // Current month name
-  const year = currentYear;  // Current year
-  
-  // Generate the month view
-  let daysInMonth = new Date(year, currentMonthIndex + 1, 0).getDate();  // Get the number of days in the current month
-  let firstDay = new Date(year, currentMonthIndex, 1).getDay();  // Get the first day of the month
-
-  let monthHTML = `
-    <div class="flex items-center justify-center gap-4 mb-4">
-      <!-- Left Arrow Button -->
-      <button class="text-2xl text-[#A4123F]" onclick="changeMonth(-1)">
-        ←
-      </button>
-      <div class="text-center text-xl font-medium text-[#A4123F] py-2 px-4 border-2 border-[#A4123F] rounded-full">
-        ${month} ${year}
-      </div>
-      <!-- Right Arrow Button -->
-      <button class="text-2xl text-[#A4123F]" onclick="changeMonth(1)">
-        →
-      </button>
-    </div>
-    <div class="grid grid-cols-7 gap-2 mt-4">
-  `;
-
-  // Add the days of the week (Sun, Mon, etc.)
-  const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  daysOfWeek.forEach(day => {
-    monthHTML += `<div class="text-sm text-gray-600">${day}</div>`;
+  // Close the menu if the user clicks outside
+  document.addEventListener('click', function(event) {
+    const menu = document.getElementById('menu');
+    const profileMenu = document.getElementById('profile-menu');
+    if (!profileMenu.contains(event.target)) {
+      menu.classList.add('hidden');
+    }
   });
 
-  // Empty cells before the first day of the month
-  for (let i = 0; i < firstDay; i++) {
-    monthHTML += `<div></div>`;
-  }
 
-  // Add the days of the month with clickable day elements
-  for (let day = 1; day <= daysInMonth; day++) {
-    monthHTML += `
-      <div class="text-center py-2 rounded-md text-gray-700 hover:bg-[#A4123F]/10 cursor-pointer" onclick="showDayView(${day})">
-        ${day}
-      </div>
-    `;
-  }
 
-  monthHTML += `</div>`;
 
-  calendarContainer.innerHTML = monthHTML;
+
+
+ 
+
+function showContent(contentId) {
+// Hide all content sections
+document.getElementById('dashboard').style.display = 'none';
+document.getElementById('courses').style.display = 'none';
+
+// Show the selected content section
+document.getElementById(contentId).style.display = 'block';
+
+// Save the current content view in localStorage
+localStorage.setItem('selectedContent', contentId);
+
+// Highlight the corresponding button
+const activeButton = document.querySelector(`button[data-content="${contentId}"]`);
+setActiveButton(activeButton);
 }
 
-// Function to change the month
-function changeMonth(direction) {
-  currentMonthIndex += direction;
+// Function to set the active button
+const setActiveButton = (activeButton) => {
+// Handle desktop buttons
+const desktopButtons = document.querySelectorAll('nav button');
+desktopButtons.forEach((button) => {
+  button.classList.remove('bg-[#A4123F]', 'text-white');
+  button.classList.add('text-gray-600', 'hover:bg-gray-100');
+  button.removeAttribute('data-active');
+});
 
-  // If currentMonthIndex goes out of bounds, adjust it
-  if (currentMonthIndex < 0) {
-    currentMonthIndex = 11;
-    currentYear--;
-  } else if (currentMonthIndex > 11) {
-    currentMonthIndex = 0;
-    currentYear++;
+// Handle mobile buttons
+const mobileButtons = document.querySelectorAll('.mobile-nav-button');
+mobileButtons.forEach((button) => {
+  button.classList.remove('bg-[#A4123F]/5', 'text-[#A4123F]');
+  button.classList.add('text-gray-500', 'hover:bg-gray-50');
+});
+
+// Add active styles to the clicked button for both desktop and mobile
+if (activeButton) {
+  activeButton.classList.add('bg-[#A4123F]', 'text-white');
+  activeButton.classList.remove('text-gray-600', 'hover:bg-gray-100');
+  activeButton.setAttribute('data-active', 'true');
+
+  // For mobile, add specific styles
+  if (activeButton.classList.contains('mobile-nav-button')) {
+    activeButton.classList.add('bg-[#A4123F]/5', 'text-[#A4123F]');
+    activeButton.classList.remove('text-gray-500', 'hover:bg-gray-50');
+  }
+}
+};
+
+// On page load, show the saved section if any, or default to Dashboard
+window.onload = function () {
+const savedContent = localStorage.getItem('selectedContent') || 'dashboard';
+showContent(savedContent);
+};
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const dayViewBtn = document.getElementById('dayViewBtn');
+  const monthViewBtn = document.getElementById('monthViewBtn');
+  const dayView = document.getElementById('dayView');
+  const monthView = document.getElementById('monthView');
+  const dayViewTitle = document.getElementById('dayViewTitle');
+  const monthViewTitle = document.getElementById('monthViewTitle');
+  const calendarGrid = document.getElementById('calendarGrid');
+  const prevMonthBtn = document.getElementById('prevMonthBtn');
+  const nextMonthBtn = document.getElementById('nextMonthBtn');
+
+  let currentDate = new Date();
+
+  // Update Month and Day views based on current date
+  function updateCalendar() {
+    // Set month view title
+    monthViewTitle.innerText = currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+    // Generate the days for the month view
+    const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+    const totalDaysInMonth = lastDayOfMonth.getDate();
+    const startingDayOfWeek = firstDayOfMonth.getDay();
+
+    // Clear previous calendar days
+    calendarGrid.innerHTML = '';
+
+    // Create empty cells for the days before the 1st of the month
+    for (let i = 0; i < startingDayOfWeek; i++) {
+      const emptyCell = document.createElement('div');
+      emptyCell.classList.add('h-full', 'p-1');
+      calendarGrid.appendChild(emptyCell);
+    }
+
+    // Create day cells
+    for (let day = 1; day <= totalDaysInMonth; day++) {
+      const dayCell = document.createElement('div');
+      dayCell.classList.add('h-full', 'p-1', 'border', 'border-gray-100', 'hover:border-[#A4123F]/20', 'cursor-pointer');
+      dayCell.innerHTML = `<div class="h-full p-1 text-sm text-gray-600">${day}</div>`;
+      
+      // Highlight today's date in the calendar
+      if (day === currentDate.getDate() && currentDate.getMonth() === new Date().getMonth() && currentDate.getFullYear() === new Date().getFullYear()) {
+        dayCell.classList.add('bg-[#A4123F]/10');
+      }
+
+      dayCell.addEventListener('click', function() {
+        dayView.classList.remove('hidden');
+        monthView.classList.add('hidden');
+        dayViewTitle.innerText = `Schedule for ${new Date(currentDate.getFullYear(), currentDate.getMonth(), day).toLocaleDateString()}`;
+      });
+      calendarGrid.appendChild(dayCell);
+    }
   }
 
-  // Update the month view after changing the month
-  showMonthView();
-}
+  // Default state: show Day View with today's date and highlight the Day button
+  dayView.classList.remove('hidden');
+  monthView.classList.add('hidden');
+  dayViewBtn.classList.add('bg-white', 'text-[#A4123F]');
+  monthViewBtn.classList.remove('bg-white', 'text-[#A4123F]');
+  dayViewTitle.innerText = `Schedule for ${currentDate.toLocaleDateString()}`;
 
-// Initial load: Show Day View by default
-showDayView();
+  // Switch to Day View
+  dayViewBtn.addEventListener('click', function() {
+    dayView.classList.remove('hidden');
+    monthView.classList.add('hidden');
+    dayViewBtn.classList.add('bg-white', 'text-[#A4123F]');
+    monthViewBtn.classList.remove('bg-white', 'text-[#A4123F]');
+  });
 
+  // Switch to Month View
+  monthViewBtn.addEventListener('click', function() {
+    monthView.classList.remove('hidden');
+    dayView.classList.add('hidden');
+    monthViewBtn.classList.add('bg-white', 'text-[#A4123F]');
+    dayViewBtn.classList.remove('bg-white', 'text-[#A4123F]');
+    updateCalendar(); // Update calendar view when switching to Month view
+  });
+
+  // Handle navigation through months
+  prevMonthBtn.addEventListener('click', function() {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    updateCalendar(); // Update calendar when going to previous month
+  });
+
+  nextMonthBtn.addEventListener('click', function() {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    updateCalendar(); // Update calendar when going to next month
+  });
+
+  // Initial calendar rendering
+  updateCalendar();
+});
