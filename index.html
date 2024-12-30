@@ -4,10 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Portal </title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="tailwind3.4.16.css"></script>
     <script src="sript.js"></script>
 </head>
 <body>
+    <!-- Loading Screen -->
+  <div id="loading-screen" class="fixed inset-0 bg-white flex items-center justify-center z-50">
+    <div class="max-w-3xl mx-auto p-6 text-center">
+      <!-- Profile Image -->
+      <div class="mb-8">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbNuyFgpgF8eSij4bbyB4HubWADQJI8cN6zg&s"
+          alt="Amma"
+          class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-[#A4123F]"
+        />
+      </div>
+      <!-- Quote Section -->
+      <div class="relative">
+        <svg
+          class="w-8 h-8 absolute -top-4 -left-4 text-[#A4123F]/30"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 13l-5-5m0 0l-5 5m5-5v12"
+          />
+        </svg>
+        <p class="text-xl md:text-2xl italic leading-relaxed text-gray-700">
+          "Youngsters need to understand the real purpose of life. They need courage and wisdom to face the challenges of life. Only with that understanding can they become the light of the world. If we care for them responsibly and mold their whole character with love, then the future of the world will be safe."
+        </p>
+        <p class="mt-4 text-lg font-semibold text-[#A4123F]">— Amma</p>
+      </div>
+      <!-- Loading Spinner -->
+      <div class="mt-8">
+        <div class="w-12 h-12 border-4 border-[#A4123F] border-t-transparent rounded-full animate-spin mx-auto"></div>
+      </div>
+    </div>
+  </div>
+
     <!-- Header for Desktop -->
     <header class="hidden md:block bg-[#A4123F] text-white fixed top-0 w-full z-10">
       <div class="max-w-7xl mx-auto px-4 py-4">
@@ -57,6 +96,7 @@
           <line x1="4" x2="20" y1="6" y2="6"></line>
           <line x1="4" x2="20" y1="18" y2="18"></line>
       </svg>
+      
       </button>
       <h1 class="text-lg font-semibold text-white">Student Portal</h1>
       <button class="p-2 -mr-2 hover:bg-white/10 rounded-full">
