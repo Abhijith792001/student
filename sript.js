@@ -213,3 +213,14 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initial calendar rendering
   updateCalendar();
 });
+
+
+
+ // Simulate a loading delay and then show the homepage
+ window.addEventListener('load', () => {
+  setTimeout(() => {
+    // Hide the loading screen and show the homepage content
+    document.getElementById('loading-screen').classList.add('hidden');
+    document.getElementById('homepage').classList.remove('hidden');
+  }, 2000); // Adjust the delay as needed
+});
